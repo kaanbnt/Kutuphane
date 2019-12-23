@@ -1,8 +1,6 @@
-package com.vaadin.menu.Dao;
+package com.vaadin.menu.dao;
 
-import com.vaadin.menu.domain.Kitap;
 import com.vaadin.menu.domain.Uye;
-import com.vaadin.menu.domain.Yazar;
 import com.vaadin.menu.utils.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -10,44 +8,43 @@ import org.hibernate.query.Query;
 
 import java.util.List;
 
-public class KitapDao {
-
-    public Kitap saveKitap(Kitap kitap) {
+public class UyeDao {
+    public Uye saveUye(Uye uye) {
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         try (Session session = sessionFactory.openSession();) {
             session.getTransaction().begin();
-            kitap = (Kitap) session.merge(kitap);
+            uye = (Uye) session.merge(uye);
             session.getTransaction().commit();
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
-        return kitap;
+        return uye;
     }
-
-    public List<Kitap> findAllKitap() {
-        List<Kitap> kitapList = null;
+    public List<Uye> findAllUye() {
+        List<Uye> uyeList = null;
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         try (Session session = sessionFactory.openSession();) {
-            String hql = "Select kitap From Kitap kitap";
+            String hql = "Select uye From Uye uye";
             Query query = session.createQuery(hql);
-            kitapList = query.list();
+            uyeList = query.list();
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
-        return kitapList;
+        return uyeList;
     }
 
-    public void deleteKitap(Kitap kitap) {
+    public void deleteUye(Uye uye) {
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         try (Session session = sessionFactory.openSession();) {
             session.getTransaction().begin();
-            String hql = "delete from Kitap kitap where kitap.id=:id";
+            String hql = "delete from Uye uye where uye.id=:id";
             Query query = session.createQuery(hql);
-            query.setLong("id", kitap.getId());
+            query.setLong("id", uye.getId());
             query.executeUpdate();
             session.getTransaction().commit();
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
     }
+
 }

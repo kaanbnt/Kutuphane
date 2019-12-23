@@ -31,7 +31,7 @@ public class MyUI extends UI {
 
     @Override
     protected void init(VaadinRequest vaadinRequest) {
-        SessionFactory sessionFactory=HibernateUtil.getSessionFactory();
+//        SessionFactory sessionFactory=HibernateUtil.getSessionFactory();
         General general = new General();
         setContent(general);
     }

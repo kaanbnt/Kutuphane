@@ -1,8 +1,8 @@
 package com.vaadin.menu.ui.views;
 
-import com.vaadin.menu.Dao.EmanetDao;
-import com.vaadin.menu.Dao.KitapDao;
-import com.vaadin.menu.Dao.UyeDao;
+import com.vaadin.menu.dao.EmanetDao;
+import com.vaadin.menu.dao.KitapDao;
+import com.vaadin.menu.dao.UyeDao;
 import com.vaadin.menu.domain.Emanet;
 import com.vaadin.menu.domain.Kitap;
 import com.vaadin.menu.domain.Uye;
@@ -40,13 +40,9 @@ public class AddEmanetView extends BaseAddView {
         idField.setEnabled(false);
         formLayout.addComponent(idField);
 
-        KitapDao kitapDao = new KitapDao();
-        List<Kitap> kitapList = kitapDao.findAllKitap();
         kitapCombo = new ComboBox("Kitap Adı");
-        for (Kitap kitap : kitapList) {
-            kitapCombo.addItem(kitap);
-        }
         formLayout.addComponent(kitapCombo);
+        fillKitapCombo();
 
         UyeDao uyeDao = new UyeDao();
         List<Uye> uyeList = uyeDao.findAllUye();
@@ -66,7 +62,24 @@ public class AddEmanetView extends BaseAddView {
         formLayout.addComponent(saveButton);
     }
 
+    private void fillKitapCombo() {
+        KitapDao kitapDao = new KitapDao();
+        List<Kitap> kitapList = kitapDao.findAllKitap();
+        for (Kitap kitap : kitapList) {
+            kitapCombo.addItem(kitap);
+        }
+    }
+
     public void saveView() {
+        Emanet emanet = buildEmanetByFields();
+
+        EmanetDao emanetDao = new EmanetDao();
+        emanet = emanetDao.saveEmanet(emanet);
+        idField.setValue(emanet.getId().toString());
+        Notification.show("Emanet Eklendi");
+    }
+
+    private Emanet buildEmanetByFields() {
         Long idFieldValue = null;
         if (idField.getValue() != "") {
             idFieldValue = Long.parseLong(idField.getValue());
@@ -78,10 +91,6 @@ public class AddEmanetView extends BaseAddView {
         emanet.setId(idFieldValue);
         emanet.setKitap(kitap);
         emanet.setUye(uye);
-
-        EmanetDao emanetDao = new EmanetDao();
-        emanet = emanetDao.saveEmanet(emanet);
-        idField.setValue(emanet.getId().toString());
-        Notification.show("Emanet Eklendi");
+        return emanet;
     }
 }

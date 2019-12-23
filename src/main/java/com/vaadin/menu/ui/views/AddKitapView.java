@@ -1,7 +1,7 @@
 package com.vaadin.menu.ui.views;
 
-import com.vaadin.menu.Dao.KitapDao;
-import com.vaadin.menu.Dao.YazarDao;
+import com.vaadin.menu.dao.KitapDao;
+import com.vaadin.menu.dao.YazarDao;
 import com.vaadin.menu.domain.EnumKitapKategori;
 import com.vaadin.menu.domain.Kitap;
 import com.vaadin.menu.domain.Yazar;

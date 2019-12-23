@@ -1,7 +1,6 @@
-package com.vaadin.menu.Dao;
+package com.vaadin.menu.dao;
 
-import com.vaadin.menu.domain.Uye;
-import com.vaadin.menu.domain.Yazar;
+import com.vaadin.menu.domain.Emanet;
 import com.vaadin.menu.utils.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -9,40 +8,38 @@ import org.hibernate.query.Query;
 
 import java.util.List;
 
-public class YazarDao {
-
-    public Yazar saveYazar(Yazar yazar) {
+public class EmanetDao {
+    public Emanet saveEmanet(Emanet emanet) {
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         try (Session session = sessionFactory.openSession();) {
             session.getTransaction().begin();
-            yazar = (Yazar) session.merge(yazar);
+            emanet = (Emanet) session.merge(emanet);
             session.getTransaction().commit();
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
-        return yazar;
+        return emanet;
     }
-
-    public List<Yazar> findAllYazar() {
-        List<Yazar> yazarList = null;
+    public List<Emanet> findAllEmanet() {
+        List<Emanet> emanetList = null;
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         try (Session session = sessionFactory.openSession();) {
-            String hql = "Select yazar From Yazar yazar";
+            String hql = "Select emanet From Emanet emanet";
             Query query = session.createQuery(hql);
-            yazarList = query.list();
+            emanetList= query.list();
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
-        return yazarList;
+        return emanetList;
     }
 
-    public void deleteYazar(Yazar yazar) {
+    public void deleteEmanet(Emanet emanet) {
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         try (Session session = sessionFactory.openSession();) {
             session.getTransaction().begin();
-            String hql = "delete from Yazar yazar where yazar.id=:id";
+            String hql = "delete from Emanet emanet where emanet.id=:id";
             Query query = session.createQuery(hql);
-            query.setLong("id", yazar.getId());
+            query.setLong("id", emanet.getId());
             query.executeUpdate();
             session.getTransaction().commit();
         } catch (Exception ex) {

@@ -1,6 +1,5 @@
-package com.vaadin.menu.Dao;
+package com.vaadin.menu.dao;
 
-import com.vaadin.menu.domain.Uye;
 import com.vaadin.menu.domain.Yazar;
 import com.vaadin.menu.utils.HibernateUtil;
 import org.hibernate.Session;
@@ -9,43 +8,44 @@ import org.hibernate.query.Query;
 
 import java.util.List;
 
-public class UyeDao {
-    public Uye saveUye(Uye uye) {
+public class YazarDao {
+
+    public Yazar saveYazar(Yazar yazar) {
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         try (Session session = sessionFactory.openSession();) {
             session.getTransaction().begin();
-            uye = (Uye) session.merge(uye);
+            yazar = (Yazar) session.merge(yazar);
             session.getTransaction().commit();
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
-        return uye;
+        return yazar;
     }
-    public List<Uye> findAllUye() {
-        List<Uye> uyeList = null;
+
+    public List<Yazar> findAllYazar() {
+        List<Yazar> yazarList = null;
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         try (Session session = sessionFactory.openSession();) {
-            String hql = "Select uye From Uye uye";
+            String hql = "Select yazar From Yazar yazar";
             Query query = session.createQuery(hql);
-            uyeList = query.list();
+            yazarList = query.list();
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
-        return uyeList;
+        return yazarList;
     }
 
-    public void deleteUye(Uye uye) {
+    public void deleteYazar(Yazar yazar) {
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         try (Session session = sessionFactory.openSession();) {
             session.getTransaction().begin();
-            String hql = "delete from Uye uye where uye.id=:id";
+            String hql = "delete from Yazar yazar where yazar.id=:id";
             Query query = session.createQuery(hql);
-            query.setLong("id", uye.getId());
+            query.setLong("id", yazar.getId());
             query.executeUpdate();
             session.getTransaction().commit();
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
     }
-
 }

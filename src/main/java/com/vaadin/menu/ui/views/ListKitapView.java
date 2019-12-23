@@ -3,7 +3,7 @@ package com.vaadin.menu.ui.views;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.event.ItemClickEvent;
-import com.vaadin.menu.Dao.KitapDao;
+import com.vaadin.menu.dao.KitapDao;
 import com.vaadin.menu.domain.*;
 import com.vaadin.menu.ui.components.DeleteButton;
 import com.vaadin.shared.ui.MultiSelectMode;

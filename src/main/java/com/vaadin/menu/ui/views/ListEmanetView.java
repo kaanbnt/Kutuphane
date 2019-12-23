@@ -3,7 +3,7 @@ package com.vaadin.menu.ui.views;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.event.ItemClickEvent;
-import com.vaadin.menu.Dao.EmanetDao;
+import com.vaadin.menu.dao.EmanetDao;
 import com.vaadin.menu.domain.Emanet;
 import com.vaadin.menu.domain.Kitap;
 import com.vaadin.menu.domain.Uye;
@@ -28,6 +28,16 @@ public class ListEmanetView extends BaseListView {
         buildTableContainer();
         buildTable();
         addComponent(table);
+        buildDeleteButton();
+        addComponent(deleteButton);
+
+        addEmanetView= new AddEmanetView();
+        addComponent(addEmanetView);
+
+        fillTable();
+    }
+
+    private void buildDeleteButton() {
         deleteButton = new DeleteButton();
         deleteButton.addClickListener(new Button.ClickListener() {
             @Override
@@ -37,12 +47,6 @@ public class ListEmanetView extends BaseListView {
                 Notification.show("Emanet Silindi");
             }
         });
-        addComponent(deleteButton);
-
-        addEmanetView= new AddEmanetView();
-        addComponent(addEmanetView);
-
-        fillTable();
     }
 
     public void fillTable() {

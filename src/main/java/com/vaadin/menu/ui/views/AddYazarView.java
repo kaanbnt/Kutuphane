@@ -1,6 +1,6 @@
 package com.vaadin.menu.ui.views;
 
-import com.vaadin.menu.Dao.YazarDao;
+import com.vaadin.menu.dao.YazarDao;
 import com.vaadin.menu.domain.Yazar;
 import com.vaadin.menu.ui.components.SaveButton;
 import com.vaadin.ui.*;
