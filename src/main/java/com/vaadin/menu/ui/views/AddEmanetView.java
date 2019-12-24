@@ -1,5 +1,8 @@
 package com.vaadin.menu.ui.views;
 
+import com.vaadin.data.fieldgroup.FieldGroup;
+import com.vaadin.data.fieldgroup.PropertyId;
+import com.vaadin.data.util.BeanItem;
 import com.vaadin.menu.dao.EmanetDao;
 import com.vaadin.menu.dao.KitapDao;
 import com.vaadin.menu.dao.UyeDao;
@@ -17,22 +20,31 @@ import java.util.List;
 
 public class AddEmanetView extends BaseAddView {
 
+    @PropertyId("id")
     private MenuTextField idField;
+
+    @PropertyId("kitap")
     private ComboBox kitapCombo;
+
+    @PropertyId("uye")
     private ComboBox uyeCombo;
+
     private SaveButton saveButton;
     private FormLayout formLayout;
+    private BeanItem<Emanet> item;
+    private FieldGroup binder;
 
     public AddEmanetView() {
+        fillViewByEmanet(new Emanet());
     }
 
     public void fillViewByEmanet(Emanet emanet) {
-        idField.setValue(emanet.getId().toString());
-        kitapCombo.setValue(emanet.getKitap());
-        uyeCombo.setValue(emanet.getUye());
+        item = new BeanItem<Emanet>(emanet);
+        binder = new FieldGroup(item);
+        binder.bindMemberFields(this);
     }
 
-    public void buildMainLayout(){
+    public void buildMainLayout() {
         formLayout = new FormLayout();
         addComponent(formLayout);
 
@@ -71,26 +83,17 @@ public class AddEmanetView extends BaseAddView {
     }
 
     public void saveView() {
-        Emanet emanet = buildEmanetByFields();
+        try {
+            binder.commit();
+            Emanet emanet = item.getBean();
 
-        EmanetDao emanetDao = new EmanetDao();
-        emanet = emanetDao.saveEmanet(emanet);
-        idField.setValue(emanet.getId().toString());
-        Notification.show("Emanet Eklendi");
-    }
-
-    private Emanet buildEmanetByFields() {
-        Long idFieldValue = null;
-        if (idField.getValue() != "") {
-            idFieldValue = Long.parseLong(idField.getValue());
+            EmanetDao emanetDao = new EmanetDao();
+            emanet = emanetDao.saveEmanet(emanet);
+            idField.setValue(emanet.getId().toString());
+            Notification.show("Emanet Eklendi");
+        } catch (FieldGroup.CommitException e) {
+            System.out.println(e.getMessage());
         }
-        Kitap kitap = (Kitap) kitapCombo.getValue();
-        Uye uye = (Uye) uyeCombo.getValue();
-
-        Emanet emanet=new Emanet();
-        emanet.setId(idFieldValue);
-        emanet.setKitap(kitap);
-        emanet.setUye(uye);
-        return emanet;
     }
 }
+

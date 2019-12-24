@@ -26,7 +26,7 @@ public class KitapDao {
         List<Kitap> kitapList = null;
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         try (Session session = sessionFactory.openSession();) {
-            String hql = "Select kitap From Kitap kitap";
+            String hql = "Select kitap From Kitap kitap left join fetch kitap.yazar yazar";
             Query query = session.createQuery(hql);
             kitapList = query.list();
         } catch (Exception ex) {

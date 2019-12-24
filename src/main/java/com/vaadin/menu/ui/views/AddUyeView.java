@@ -1,5 +1,8 @@
 package com.vaadin.menu.ui.views;
 
+import com.vaadin.data.fieldgroup.FieldGroup;
+import com.vaadin.data.fieldgroup.PropertyId;
+import com.vaadin.data.util.BeanItem;
 import com.vaadin.menu.dao.UyeDao;
 import com.vaadin.menu.domain.Uye;
 import com.vaadin.menu.ui.components.SaveButton;
@@ -9,19 +12,28 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
 
 public class AddUyeView extends BaseAddView {
+
+    @PropertyId("id")
     private TextField idField;
+
+    @PropertyId("adi")
     private TextField uyeAdiField;
+
+    @PropertyId("soyadi")
     private TextField uyeSoyadiField;
+
     private FormLayout mainLayout;
+    private BeanItem<Uye> item;
+    private FieldGroup binder;
 
-    public void AddUyeView(){
-
+    public AddUyeView(){
+        fillViewByUye(new Uye());
     }
 
     public void fillViewByUye(Uye uye) {
-        idField.setValue(uye.getId().toString());
-        uyeAdiField.setValue(uye.getAdi());
-        uyeSoyadiField.setValue(uye.getSoyadi());
+        item = new BeanItem<Uye>(uye);
+        binder = new FieldGroup(item);
+        binder.bindMemberFields(this);
     }
 
     public void  buildMainLayout(){
@@ -43,27 +55,25 @@ public class AddUyeView extends BaseAddView {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
                 saveView();
+                fillViewByUye(new Uye());
+
             }
         });
         mainLayout.addComponent(saveButton);
     }
 
     public void saveView() {
-        Long idFieldValue = null;
-        if (idField.getValue() != "") {
-            idFieldValue = Long.parseLong(idField.getValue());
+        try {
+            binder.commit();
+            Uye uye = item.getBean();
+
+            UyeDao uyeDao = new UyeDao();
+            uye = uyeDao.saveUye(uye);
+            idField.setValue(uye.getId().toString());
+            Notification.show("Üye Eklendi");
         }
-        String uyeAdiFieldValue = uyeAdiField.getValue();
-        String uyeSoyadiFieldValue=uyeSoyadiField.getValue();
-
-        Uye uye = new Uye();
-        uye.setId(idFieldValue);
-        uye.setAdi(uyeAdiFieldValue);
-        uye.setSoyadi(uyeSoyadiFieldValue);
-
-        UyeDao uyeDao = new UyeDao();
-        uye = uyeDao.saveUye(uye);
-        idField.setValue(uye.getId().toString());
-        Notification.show("Üye Eklendi");
+        catch (FieldGroup.CommitException e){
+            System.out.println(e.getMessage());
+        }
     }
 }

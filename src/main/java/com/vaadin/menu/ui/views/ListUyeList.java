@@ -1,6 +1,7 @@
 package com.vaadin.menu.ui.views;
 
 import com.vaadin.data.Item;
+import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.event.ItemClickEvent;
 import com.vaadin.menu.dao.UyeDao;
@@ -15,6 +16,7 @@ import java.util.List;
 public class ListUyeList extends BaseListView {
     private Table table;
     private IndexedContainer indexedContainer;
+//    BeanItemContainer<Uye> uyeBeans=null;
     private AddUyeView addUyeView;
     private DeleteButton deleteButton;
     Uye uye;
@@ -54,6 +56,9 @@ public class ListUyeList extends BaseListView {
             item.getItemProperty("adi").setValue(uye.getAdi());
             item.getItemProperty("soyadi").setValue(uye.getSoyadi());
         }
+
+//        uyeBeans=new BeanItemContainer<Uye>(Uye.class);
+//        table=new Table("Üye Listele",uyeBeans);
     }
 
     public void buildTableContainer() {

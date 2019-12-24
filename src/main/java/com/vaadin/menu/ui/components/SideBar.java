@@ -18,84 +18,33 @@ public class SideBar extends VerticalLayout {
         setSpacing(true);//elementler arası boşuk
         setMargin(true);//her tarafında boşluk
 
-        btnMenuButton = new MenuButton(FontAwesome.PLUS);
-        btnMenuButton.setCaption("Yazar Ekle");
-        btnMenuButton.addClickListener(new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                AddYazarView addYazarView=new AddYazarView();
-                content.setContent(addYazarView);
-            }
-        });
+        buildAddYazarView(content);
         addComponent(btnMenuButton);
 
-        btnMenuButton = new MenuButton(FontAwesome.PENCIL_SQUARE);
-        btnMenuButton.setCaption("Yazar Listele");
-        btnMenuButton.addClickListener(new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                ListYazarView listYazarView=new ListYazarView();
-                content.setContent(listYazarView);
-            }
-        });
+        buildListYazarView(content);
         addComponent(btnMenuButton);
 
 
-        btnMenuButton = new MenuButton(FontAwesome.PLUS);
-        btnMenuButton.setCaption("Kitap Ekle");
-        btnMenuButton.addClickListener(new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                AddKitapView addKitapView=new AddKitapView();
-                content.setContent(addKitapView);
-            }
-        });
+        buildAddKitapView(content);
         addComponent(btnMenuButton);
 
-        btnMenuButton = new MenuButton(FontAwesome.BOOK);
-        btnMenuButton.setCaption("Kitap Listele");
-        btnMenuButton.addClickListener(new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                ListKitapView listKitapView=new ListKitapView();
-                content.setContent(listKitapView);
-            }
-        });
+        bildListKitapView(content);
         addComponent(btnMenuButton);
 
-        btnMenuButton = new MenuButton(FontAwesome.USER_PLUS);
-        btnMenuButton.setCaption("Üye Ekle");
-        btnMenuButton.addClickListener(new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                AddUyeView addUyeView=new AddUyeView();
-                content.setContent(addUyeView);
-            }
-        });
+        buildAddUyeView(content);
         addComponent(btnMenuButton);
 
-        btnMenuButton = new MenuButton(FontAwesome.USER);
-        btnMenuButton.setCaption("Üye Listele");
-        btnMenuButton.addClickListener(new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                ListUyeList listUyeList=new ListUyeList();
-                content.setContent(listUyeList);
-            }
-        });
+        buildListUyeView(content);
         addComponent(btnMenuButton);
 
-        btnMenuButton = new MenuButton(FontAwesome.PLUS);
-        btnMenuButton.setCaption("Emanet Ekle");
-        btnMenuButton.addClickListener(new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                AddEmanetView addEmanetView=new AddEmanetView();
-                content.setContent(addEmanetView);
-            }
-        });
+        buildAddEmanetView(content);
         addComponent(btnMenuButton);
 
+        buildListEmanetView(content);
+        addComponent(btnMenuButton);
+    }
+
+    private void buildListEmanetView(Content content) {
         btnMenuButton = new MenuButton(FontAwesome.ARROW_CIRCLE_O_RIGHT);
         btnMenuButton.setCaption("Emanet Listele");
         btnMenuButton.addClickListener(new Button.ClickListener() {
@@ -105,6 +54,89 @@ public class SideBar extends VerticalLayout {
                 content.setContent(listEmanetView);
             }
         });
-        addComponent(btnMenuButton);
+    }
+
+    private void buildAddEmanetView(Content content) {
+        btnMenuButton = new MenuButton(FontAwesome.PLUS);
+        btnMenuButton.setCaption("Emanet Ekle");
+        btnMenuButton.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                AddEmanetView addEmanetView=new AddEmanetView();
+                content.setContent(addEmanetView);
+            }
+        });
+    }
+
+    private void buildListUyeView(Content content) {
+        btnMenuButton = new MenuButton(FontAwesome.USER);
+        btnMenuButton.setCaption("Üye Listele");
+        btnMenuButton.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                ListUyeList listUyeList=new ListUyeList();
+                content.setContent(listUyeList);
+            }
+        });
+    }
+
+    private void buildAddUyeView(Content content) {
+        btnMenuButton = new MenuButton(FontAwesome.USER_PLUS);
+        btnMenuButton.setCaption("Üye Ekle");
+        btnMenuButton.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                AddUyeView addUyeView=new AddUyeView();
+                content.setContent(addUyeView);
+            }
+        });
+    }
+
+    private void bildListKitapView(Content content) {
+        btnMenuButton = new MenuButton(FontAwesome.BOOK);
+        btnMenuButton.setCaption("Kitap Listele");
+        btnMenuButton.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                ListKitapView listKitapView=new ListKitapView();
+                content.setContent(listKitapView);
+            }
+        });
+    }
+
+    private void buildAddKitapView(Content content) {
+        btnMenuButton = new MenuButton(FontAwesome.PLUS);
+        btnMenuButton.setCaption("Kitap Ekle");
+        btnMenuButton.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                AddKitapView addKitapView=new AddKitapView();
+                content.setContent(addKitapView);
+            }
+        });
+    }
+
+    private void buildListYazarView(Content content) {
+        btnMenuButton = new MenuButton(FontAwesome.PENCIL_SQUARE);
+        btnMenuButton.setCaption("Yazar Listele");
+        btnMenuButton.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                ListYazarView listYazarView=new ListYazarView();
+                content.setContent(listYazarView);
+            }
+        });
+    }
+
+    private void buildAddYazarView(Content content) {
+        btnMenuButton = new MenuButton(FontAwesome.PLUS);
+        btnMenuButton.setCaption("Yazar Ekle");
+        btnMenuButton.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                AddYazarView addYazarView=new AddYazarView();
+                content.setContent(addYazarView);
+            }
+        });
     }
 }

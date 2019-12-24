@@ -1,5 +1,8 @@
 package com.vaadin.menu.ui.views;
 
+import com.vaadin.data.fieldgroup.FieldGroup;
+import com.vaadin.data.fieldgroup.PropertyId;
+import com.vaadin.data.util.BeanItem;
 import com.vaadin.menu.dao.KitapDao;
 import com.vaadin.menu.dao.YazarDao;
 import com.vaadin.menu.domain.EnumKitapKategori;
@@ -13,21 +16,31 @@ import java.util.List;
 
 public class AddKitapView extends BaseAddView {
 
+    @PropertyId("id")
     private MenuTextField idField;
+
+    @PropertyId("kitapAdi")
     private TextField kitapAdiField;
+
+    @PropertyId("enumKitapKategori")
     private ComboBox enumCombo;
+
+    @PropertyId("yazar")
     private ComboBox yazarCombo;
+
     private SaveButton saveButton;
     private FormLayout formLayout;
+    private BeanItem<Kitap> item;
+    private FieldGroup binder;
 
     public AddKitapView() {
+        fillViewByKitap(new Kitap());
     }
 
     public void fillViewByKitap(Kitap kitap) {
-        idField.setValue(kitap.getId().toString());
-        kitapAdiField.setValue(kitap.getKitapAdi());
-        enumCombo.setValue(kitap.getEnumKitapKategori());
-        yazarCombo.setValue(kitap.getYazar());
+        item = new BeanItem<Kitap>(kitap);
+        binder = new FieldGroup(item);
+        binder.bindMemberFields(this);
     }
 
     public void buildMainLayout() {
@@ -50,6 +63,7 @@ public class AddKitapView extends BaseAddView {
         YazarDao yazarDao = new YazarDao();
         List<Yazar> yazarList = yazarDao.findAllYazar();
         yazarCombo = new ComboBox("Yazar Adı");
+
         for (Yazar yazar : yazarList) {
             yazarCombo.addItem(yazar);
         }
@@ -66,23 +80,17 @@ public class AddKitapView extends BaseAddView {
     }
 
     public void saveView() {
-        Long idFieldValue = null;
-        if (idField.getValue() != "") {
-            idFieldValue = Long.parseLong(idField.getValue());
+        try {
+            binder.commit();
+            Kitap kitap = item.getBean();
+
+            KitapDao kitapDao = new KitapDao();
+            kitap = kitapDao.saveKitap(kitap);
+            idField.setValue(kitap.getId().toString());
+            Notification.show("Kitap Eklendi");
+
+        } catch (FieldGroup.CommitException e) {
+            System.out.println(e.getMessage());
         }
-        String nameKitapValue = kitapAdiField.getValue();
-        EnumKitapKategori enumKitapKategori = (EnumKitapKategori) enumCombo.getValue();
-        Yazar yazar = (Yazar) yazarCombo.getValue();
-
-        Kitap kitap = new Kitap();
-        kitap.setId(idFieldValue);
-        kitap.setKitapAdi(nameKitapValue);
-        kitap.setEnumKitapKategori(enumKitapKategori);
-        kitap.setYazar(yazar);
-
-        KitapDao kitapDao = new KitapDao();
-        kitap = kitapDao.saveKitap(kitap);
-        idField.setValue(kitap.getId().toString());
-        Notification.show("Kitap Eklendi");
     }
 }

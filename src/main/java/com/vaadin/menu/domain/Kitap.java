@@ -19,7 +19,7 @@ public class Kitap extends BaseDomain {
     @Column(length = 25)
     private EnumKitapKategori enumKitapKategori;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_YAZAR", referencedColumnName = "ID", foreignKey = @ForeignKey(name = "KITAP_YAZAR_ID"))
     private Yazar yazar;
 
